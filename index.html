@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PastaTeam|cc – Топ читов и кряков</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+
+    <!-- PRELOADER -->
+    <div id="preloader"><div class="spinner"></div></div>
+
+    <!-- ПАРТИКЛЫ (CSS) -->
+    <div id="particles"></div>
+
+    <!-- HEADER -->
+    <header id="siteHeader">
+        <div class="navbar-shell">
+            <a href="#" class="logo" id="brandHome" aria-label="PastaTeam — на главную">
+                <span class="logo-mark" aria-hidden="true"><i class="fas fa-crown"></i></span>
+                <span class="logo-text">PastaTeam<span>|cc</span></span>
+            </a>
+
+            <button type="button" class="menu-toggle" id="menuToggle" aria-expanded="false"
+                aria-controls="navbarPanel" aria-label="Открыть меню">
+                <span></span><span></span><span></span>
+            </button>
+
+            <div class="navbar-panel" id="navbarPanel">
+                <nav id="mainNav" aria-label="Основная навигация">
+                    <a href="#" class="nav-link active" data-page="home" aria-current="page"><i class="fas fa-home"></i><span>Home</span></a>
+                    <a href="#" class="nav-link" data-page="cfg" id="navCfg" style="display:none;"><i class="fas fa-code"></i><span>CFG/LUAs</span></a>
+                    <a href="#" class="nav-link" data-page="users"><i class="fas fa-users"></i><span>Users</span></a>
+                    <a href="#" class="nav-link" data-page="store"><i class="fas fa-store"></i><span>Store</span></a>
+                    <a href="#" class="nav-link" data-page="profile"><i class="fas fa-user"></i><span>Profile</span></a>
+                    <a href="#" class="nav-link" data-page="support"><i class="fas fa-headset"></i><span>Support</span></a>
+                    <a href="#" class="nav-link" data-page="loader" id="navLoader" style="display:none;"><i class="fas fa-download"></i><span>Loader</span></a>
+                </nav>
+
+                <div class="auth-buttons" id="authButtons">
+                    <a href="#" class="btn nav-auth-link" id="loginBtn"><i class="fas fa-right-to-bracket"></i><span>Вход</span></a>
+                    <a href="#" class="btn btn-primary nav-auth-link" id="registerBtn"><i class="fas fa-user-plus"></i><span>Регистрация</span></a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- МОДАЛКИ (вход, регистрация, просмотр пользователя, приватный чат) -->
+    <div id="loginModal" class="modal auth-modal" role="dialog" aria-modal="true"
+        aria-labelledby="loginTitle" aria-describedby="loginDescription" aria-hidden="true">
+        <div class="modal-content auth-card" tabindex="-1">
+            <button type="button" class="close auth-close" data-close-modal="loginModal" aria-label="Закрыть окно входа">
+                <i class="fas fa-times" aria-hidden="true"></i>
+            </button>
+
+            <div class="auth-brand" aria-hidden="true"><i class="fas fa-shield-halved"></i></div>
+            <div class="auth-heading">
+                <span class="auth-eyebrow">PASTATEAM ACCESS</span>
+                <h2 id="loginTitle">С возвращением</h2>
+                <p id="loginDescription">Войдите в аккаунт, чтобы открыть приватные разделы.</p>
+            </div>
+
+            <div class="auth-tabs" role="tablist" aria-label="Авторизация">
+                <button type="button" class="auth-tab active" role="tab" aria-selected="true"
+                    data-auth-target="loginModal">Вход</button>
+                <button type="button" class="auth-tab" role="tab" aria-selected="false"
+                    data-auth-target="registerModal">Регистрация</button>
+            </div>
+
+            <form id="loginForm" class="auth-form" novalidate>
+                <div class="auth-field" id="loginUserField">
+                    <label for="loginUser">Логин</label>
+                    <div class="auth-input">
+                        <i class="fas fa-user" aria-hidden="true"></i>
+                        <input type="text" id="loginUser" name="username" placeholder="Ваш логин"
+                            autocomplete="username" enterkeyhint="next" required aria-describedby="loginUserError">
+                    </div>
+                    <span class="field-error" id="loginUserError" hidden></span>
+                </div>
+
+                <div class="auth-field" id="loginPassField">
+                    <label for="loginPass">Пароль</label>
+                    <div class="auth-input">
+                        <i class="fas fa-lock" aria-hidden="true"></i>
+                        <input type="password" id="loginPass" name="password" placeholder="Ваш пароль"
+                            autocomplete="current-password" enterkeyhint="done" required aria-describedby="loginPassError">
+                        <button type="button" class="password-toggle" data-password-target="loginPass"
+                            aria-label="Показать пароль" aria-pressed="false">
+                            <i class="fas fa-eye" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <span class="field-error" id="loginPassError" hidden></span>
+                </div>
+
+                <div class="auth-message" id="loginMessage" role="alert" aria-live="polite" hidden></div>
+
+                <button type="submit" class="btn btn-primary auth-submit">
+                    <span>Войти</span><i class="fas fa-arrow-right" aria-hidden="true"></i>
+                </button>
+            </form>
+
+            <p class="auth-note"><i class="fas fa-lock" aria-hidden="true"></i> Данные сохраняются только в этом браузере.</p>
+        </div>
+    </div>
+
+    <div id="registerModal" class="modal auth-modal register-modal" role="dialog" aria-modal="true"
+        aria-labelledby="registerTitle" aria-describedby="registerDescription" aria-hidden="true">
+        <div class="modal-content auth-card" tabindex="-1">
+            <button type="button" class="close auth-close" data-close-modal="registerModal" aria-label="Закрыть окно регистрации">
+                <i class="fas fa-times" aria-hidden="true"></i>
+            </button>
+
+            <div class="auth-brand" aria-hidden="true"><i class="fas fa-user-plus"></i></div>
+            <div class="auth-heading">
+                <span class="auth-eyebrow">JOIN THE TEAM</span>
+                <h2 id="registerTitle">Создать аккаунт</h2>
+                <p id="registerDescription">Регистрация доступна участникам с действующим инвайтом.</p>
+            </div>
+
+            <div class="auth-tabs" role="tablist" aria-label="Авторизация">
+                <button type="button" class="auth-tab" role="tab" aria-selected="false"
+                    data-auth-target="loginModal">Вход</button>
+                <button type="button" class="auth-tab active" role="tab" aria-selected="true"
+                    data-auth-target="registerModal">Регистрация</button>
+            </div>
+
+            <form id="registerForm" class="auth-form" novalidate>
+                <div class="auth-field" id="regUserField">
+                    <label for="regUser">Логин</label>
+                    <div class="auth-input">
+                        <i class="fas fa-user" aria-hidden="true"></i>
+                        <input type="text" id="regUser" name="username" placeholder="От 3 символов"
+                            autocomplete="username" enterkeyhint="next" minlength="3" required aria-describedby="regUserError">
+                    </div>
+                    <span class="field-error" id="regUserError" hidden></span>
+                </div>
+
+                <div class="auth-field" id="regEmailField">
+                    <label for="regEmail">Email</label>
+                    <div class="auth-input">
+                        <i class="fas fa-envelope" aria-hidden="true"></i>
+                        <input type="email" id="regEmail" name="email" placeholder="name@example.com"
+                            autocomplete="email" inputmode="email" enterkeyhint="next" required aria-describedby="regEmailError">
+                    </div>
+                    <span class="field-error" id="regEmailError" hidden></span>
+                </div>
+
+                <div class="auth-field" id="regPassField">
+                    <label for="regPass">Пароль</label>
+                    <div class="auth-input">
+                        <i class="fas fa-lock" aria-hidden="true"></i>
+                        <input type="password" id="regPass" name="password" placeholder="Минимум 6 символов"
+                            autocomplete="new-password" enterkeyhint="next" minlength="6" required aria-describedby="regPassError">
+                        <button type="button" class="password-toggle" data-password-target="regPass"
+                            aria-label="Показать пароль" aria-pressed="false">
+                            <i class="fas fa-eye" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <span class="field-error" id="regPassError" hidden></span>
+                </div>
+
+                <div class="auth-field" id="regInviteField">
+                    <label for="regInvite">Инвайт-код</label>
+                    <div class="auth-input">
+                        <i class="fas fa-ticket" aria-hidden="true"></i>
+                        <input type="text" id="regInvite" name="invite" placeholder="Введите код приглашения"
+                            autocomplete="off" enterkeyhint="done" required aria-describedby="regInviteError regInviteHint">
+                    </div>
+                    <span class="field-hint" id="regInviteHint">Код можно получить у участника команды.</span>
+                    <span class="field-error" id="regInviteError" hidden></span>
+                </div>
+
+                <div class="auth-message" id="registerMessage" role="alert" aria-live="polite" hidden></div>
+
+                <button type="submit" class="btn btn-primary auth-submit">
+                    <span>Создать аккаунт</span><i class="fas fa-arrow-right" aria-hidden="true"></i>
+                </button>
+            </form>
+
+            <p class="auth-note"><i class="fas fa-gift" aria-hidden="true"></i> После регистрации начислим 1000 PASTA COIN.</p>
+        </div>
+    </div>
+
+    <div id="authToast" class="auth-toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- Модалка для просмотра пользователя -->
+    <div id="userModal" class="modal user-detail-overlay" role="dialog" aria-modal="true"
+        aria-labelledby="userModalTitle" aria-hidden="true">
+        <div class="modal-content user-detail-modal" id="userModalContent" tabindex="-1">
+            <button type="button" class="user-detail-close" data-close-modal="userModal" aria-label="Закрыть профиль пользователя">
+                <i class="fas fa-times" aria-hidden="true"></i>
+            </button>
+
+            <div class="user-detail-header">
+                <div class="user-detail-avatar" id="userModalAvatar" aria-hidden="true"><i class="fas fa-user"></i></div>
+                <div class="user-detail-identity">
+                    <span class="user-detail-kicker">Community profile</span>
+                    <h2 id="userModalTitle">Пользователь</h2>
+                    <div class="user-detail-roles" id="userModalRoles"></div>
+                </div>
+                <div class="user-detail-access" id="userModalAccess"></div>
+            </div>
+
+            <div id="userModalBody" class="user-detail-body"></div>
+            <div id="userModalMessage" class="user-detail-message" role="status" aria-live="polite" hidden></div>
+
+            <div class="user-detail-actions">
+                <button type="button" class="btn btn-primary" id="userModalMsgBtn">
+                    <i class="fas fa-comment" aria-hidden="true"></i><span>Написать</span>
+                </button>
+                <button type="button" class="btn btn-danger" id="userModalBlockBtn">
+                    <i class="fas fa-ban" aria-hidden="true"></i><span>Заблокировать</span>
+                </button>
+                <button type="button" class="btn user-detail-dismiss" data-close-modal="userModal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модалка для приватного чата -->
+    <div id="privateChatModal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <span class="close" onclick="closeModal('privateChatModal')">&times;</span>
+            <h2 id="privateChatTitle">Чат с пользователем</h2>
+            <div id="privateChatMessages" style="max-height: 300px; overflow-y: auto; background: rgba(0,0,0,0.2); border-radius: 12px; padding: 12px; margin-bottom: 12px;"></div>
+            <div style="display: flex; gap: 8px;">
+                <input type="text" id="privateChatInput" placeholder="Сообщение..." style="flex:1; padding: 10px; border-radius: 50px; background: var(--bg-primary); border: 1px solid var(--border-color); color: #fff;">
+                <button class="btn btn-primary" onclick="sendPrivateMessage()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+            <div style="margin-top: 8px; display: flex; gap: 8px; flex-wrap: wrap;">
+                <button class="btn btn-small btn-danger" onclick="clearPrivateChat()">Очистить чат</button>
+                <button class="btn btn-small" onclick="closeModal('privateChatModal')">Закрыть</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN -->
+    <main>
+        <!-- HOME -->
+        <section id="page-home" class="page active">
+            <div class="hero home-hero">
+                <div class="home-hero-grid" aria-hidden="true"></div>
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <div class="hero-eyebrow">
+                            <span class="hero-status"><span class="status-pulse" aria-hidden="true"></span> Core v2.5 online</span>
+                            <span class="hero-release">Private access</span>
+                        </div>
+                        <h1>Играй на своих <span>условиях</span></h1>
+                        <p>Единая экосистема конфигов, Lua-скриптов и приватных инструментов для CS2, Rust, Apex и других игр.</p>
+
+                        <div class="hero-actions">
+                            <a href="#" class="btn btn-primary home-page-link" data-target-page="store">
+                                <span>Открыть доступ</span><i class="fas fa-arrow-right" aria-hidden="true"></i>
+                            </a>
+                            <a href="#home-features" class="btn btn-secondary home-scroll-link">
+                                <i class="fas fa-play" aria-hidden="true"></i><span>Что внутри</span>
+                            </a>
+                        </div>
+
+                        <div class="hero-proof" aria-label="Преимущества платформы">
+                            <span><i class="fas fa-bolt" aria-hidden="true"></i> Быстрый старт</span>
+                            <span><i class="fas fa-rotate" aria-hidden="true"></i> Ежедневные обновления</span>
+                            <span><i class="fas fa-headset" aria-hidden="true"></i> Поддержка</span>
+                        </div>
+                    </div>
+
+                    <figure class="cube-wrapper home-visual">
+                        <div class="visual-toolbar" aria-hidden="true">
+                            <span><span class="visual-live-dot"></span> SYSTEM ACTIVE</span>
+                            <span>PT // 2.5</span>
+                        </div>
+                        <div id="cube-container" tabindex="0" role="img"
+                            aria-label="Интерактивное 3D-ядро PastaTeam. Потяните, чтобы повернуть."></div>
+                        <figcaption class="visual-caption">
+                            <span><i class="fas fa-hand-pointer" aria-hidden="true"></i> Drag to explore</span>
+                            <span class="visual-signal"><i class="fas fa-signal" aria-hidden="true"></i> 100%</span>
+                        </figcaption>
+                    </figure>
+                </div>
+            </div>
+
+            <div class="home-metrics" aria-label="PastaTeam в цифрах">
+                <div class="metric-card"><strong>2000+</strong><span>готовых конфигов</span></div>
+                <div class="metric-card"><strong>3000+</strong><span>участников сообщества</span></div>
+                <div class="metric-card"><strong>v2.5</strong><span>актуальная версия Core</span></div>
+            </div>
+
+            <section class="features-section" id="home-features" aria-labelledby="featuresTitle">
+                <div class="section-heading">
+                    <div>
+                        <span class="section-kicker">Всё в одном месте</span>
+                        <h2 id="featuresTitle">Инструменты для твоей игры</h2>
+                    </div>
+                    <p>Собрали библиотеку, обновления и комьюнити в одной понятной платформе.</p>
+                </div>
+                <div class="features">
+                    <article class="feature-card">
+                        <span class="feature-number">01</span>
+                        <span class="feature-icon"><i class="fas fa-file-code" aria-hidden="true"></i></span>
+                        <h3>2000+ конфигов</h3>
+                        <p>Готовые пресеты от опытных игроков — выбирай и настраивай под себя.</p>
+                    </article>
+                    <article class="feature-card">
+                        <span class="feature-number">02</span>
+                        <span class="feature-icon"><i class="fas fa-terminal" aria-hidden="true"></i></span>
+                        <h3>Lua-библиотека</h3>
+                        <p>Расширяй возможности с помощью скриптов и собственных сценариев.</p>
+                    </article>
+                    <article class="feature-card">
+                        <span class="feature-number">03</span>
+                        <span class="feature-icon"><i class="fas fa-shield-halved" aria-hidden="true"></i></span>
+                        <h3>Регулярные апдейты</h3>
+                        <p>Core и библиотека обновляются, чтобы оставаться стабильными и актуальными.</p>
+                    </article>
+                    <article class="feature-card">
+                        <span class="feature-number">04</span>
+                        <span class="feature-icon"><i class="fas fa-users" aria-hidden="true"></i></span>
+                        <h3>Живое сообщество</h3>
+                        <p>Обменивайся опытом, находи сборки и получай помощь от команды.</p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="news-section" aria-labelledby="newsTitle">
+                <div class="section-heading section-heading-compact">
+                    <div>
+                        <span class="section-kicker">Changelog</span>
+                        <h2 id="newsTitle">Последние новости</h2>
+                    </div>
+                    <span class="news-status"><span class="status-pulse" aria-hidden="true"></span> Обновляется</span>
+                </div>
+                <div class="news-grid">
+                    <article class="news-item news-item-featured">
+                        <div class="news-meta"><span class="news-tag">Update</span><time datetime="2026-03-24">24 марта 2026</time></div>
+                        <h4>Обновление лоадера v2.5</h4>
+                        <p>Добавлена поддержка новых игр, улучшена стабильность инжекта.</p>
+                        <span class="news-link">Подробнее <i class="fas fa-arrow-right" aria-hidden="true"></i></span>
+                    </article>
+                    <article class="news-item">
+                        <div class="news-meta"><span class="news-tag">Library</span><time datetime="2026-03-20">20 марта 2026</time></div>
+                        <h4>Новая коллекция конфигов для CS2</h4>
+                        <p>Более 50 пресетов от топ-игроков. Скачивай и доминируй!</p>
+                        <span class="news-link">Подробнее <i class="fas fa-arrow-right" aria-hidden="true"></i></span>
+                    </article>
+                    <article class="news-item">
+                        <div class="news-meta"><span class="news-tag">Store</span><time datetime="2026-03-15">15 марта 2026</time></div>
+                        <h4>Скидки на подписку до 30%</h4>
+                        <p>Только до конца месяца. Успей купить со скидкой!</p>
+                        <span class="news-link">Подробнее <i class="fas fa-arrow-right" aria-hidden="true"></i></span>
+                    </article>
+                </div>
+            </section>
+        </section>
+
+        <!-- CFG/LUAs -->
+        <section id="page-cfg" class="page">
+            <div class="library-shell">
+                <div class="library-hero">
+                    <div class="library-hero-copy">
+                        <span class="library-kicker"><i class="fas fa-code" aria-hidden="true"></i> PastaTeam Library</span>
+                        <h2>CFG &amp; Lua</h2>
+                        <p>Храните игровые конфиги и Lua-скрипты в одной библиотеке, быстро находите нужное и скачивайте без лишних шагов.</p>
+                        <div class="library-access-note"><i class="fas fa-crown" aria-hidden="true"></i> Доступно участникам с активной подпиской</div>
+                    </div>
+                    <div class="library-stats" aria-label="Статистика библиотеки">
+                        <article><span><i class="fas fa-box-archive" aria-hidden="true"></i></span><div><small>Всего файлов</small><strong id="libraryTotalCount">0</strong></div></article>
+                        <article><span class="is-cfg"><i class="fas fa-sliders" aria-hidden="true"></i></span><div><small>CFG</small><strong id="libraryCfgCount">0</strong></div></article>
+                        <article><span class="is-lua"><i class="fas fa-terminal" aria-hidden="true"></i></span><div><small>Lua</small><strong id="libraryLuaCount">0</strong></div></article>
+                    </div>
+                </div>
+
+                <div class="library-workspace">
+                    <section class="library-upload-card" id="uploadArea" aria-labelledby="libraryUploadTitle" hidden>
+                        <div class="library-card-heading">
+                            <div>
+                                <span>Добавить в библиотеку</span>
+                                <h3 id="libraryUploadTitle">Загрузить <strong id="libraryUploadType">CFG</strong></h3>
+                            </div>
+                            <i class="fas fa-cloud-arrow-up" aria-hidden="true"></i>
+                        </div>
+
+                        <form class="upload-area" id="libraryUploadForm" novalidate>
+                            <label class="library-file-picker" for="fileInput">
+                                <span><i class="fas fa-file-arrow-up" aria-hidden="true"></i></span>
+                                <div><strong>Выберите файл</strong><small id="libraryFileHint">CFG или TXT · до 1 МБ</small></div>
+                                <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                            </label>
+                            <input type="file" id="fileInput" accept=".cfg,.txt,text/plain">
+                            <div class="library-selected-file" id="librarySelectedFile" hidden>
+                                <i class="fas fa-file-lines" aria-hidden="true"></i><span id="librarySelectedFileName"></span>
+                            </div>
+                            <div class="library-name-field">
+                                <label for="fileName">Название в библиотеке</label>
+                                <input type="text" id="fileName" maxlength="80" placeholder="Можно оставить пустым">
+                            </div>
+                            <div class="library-message" id="libraryMessage" role="status" aria-live="polite" hidden></div>
+                            <button type="submit" class="btn btn-primary library-upload-button" id="uploadBtn">
+                                <span>Добавить файл</span><i class="fas fa-arrow-right" aria-hidden="true"></i>
+                            </button>
+                        </form>
+                    </section>
+
+                    <section class="library-collection" aria-labelledby="libraryCollectionTitle">
+                        <div class="library-toolbar">
+                            <div class="subnav" role="tablist" aria-label="Тип файлов">
+                                <button type="button" class="sub-link active" data-sub="cfg" role="tab" aria-selected="true" aria-controls="sub-cfg">
+                                    <i class="fas fa-sliders" aria-hidden="true"></i><span>CFG</span><strong id="cfgTabCount">0</strong>
+                                </button>
+                                <button type="button" class="sub-link" data-sub="lua" role="tab" aria-selected="false" aria-controls="sub-lua">
+                                    <i class="fas fa-terminal" aria-hidden="true"></i><span>Lua</span><strong id="luaTabCount">0</strong>
+                                </button>
+                            </div>
+                            <label class="library-search" for="librarySearch">
+                                <i class="fas fa-magnifying-glass" aria-hidden="true"></i>
+                                <input type="search" id="librarySearch" placeholder="Найти файл или автора..."
+                                    autocomplete="off" aria-label="Поиск по библиотеке">
+                            </label>
+                        </div>
+
+                        <div class="library-collection-head">
+                            <div><span>Collection</span><h3 id="libraryCollectionTitle">CFG-конфиги</h3></div>
+                            <span id="libraryResultCount">0 файлов</span>
+                        </div>
+
+                        <div id="sub-cfg" class="subpage active" role="tabpanel">
+                            <div class="file-grid" id="cfgGrid"></div>
+                        </div>
+                        <div id="sub-lua" class="subpage" role="tabpanel">
+                            <div class="file-grid" id="luaGrid"></div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </section>
+
+        <!-- USERS -->
+        <section id="page-users" class="page">
+            <div class="users-hero">
+                <div class="users-heading">
+                    <span class="users-kicker">PastaTeam Community</span>
+                    <h2>Найди своего тиммейта</h2>
+                    <p>Участники сообщества, авторы конфигов и команда платформы — все в одном каталоге.</p>
+                </div>
+                <div class="users-overview" aria-label="Статистика сообщества">
+                    <div><strong id="usersTotalCount">0</strong><span>участников</span></div>
+                    <div><strong id="usersPremiumCount">0</strong><span>с доступом</span></div>
+                    <div><strong id="usersTeamCount">0</strong><span>в команде</span></div>
+                </div>
+            </div>
+
+            <div class="users-toolbar">
+                <label class="users-search" for="usersSearchInput">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                    <input type="search" id="usersSearchInput" placeholder="Поиск по нику" autocomplete="off">
+                    <span class="users-search-shortcut" aria-hidden="true">⌘ K</span>
+                </label>
+                <div class="users-filters" role="group" aria-label="Фильтр пользователей">
+                    <button type="button" class="users-filter active" data-user-filter="all" aria-pressed="true">Все</button>
+                    <button type="button" class="users-filter" data-user-filter="premium" aria-pressed="false">Premium</button>
+                    <button type="button" class="users-filter" data-user-filter="team" aria-pressed="false">Команда</button>
+                </div>
+                <span class="users-result-count" id="usersResultCount">0 участников</span>
+            </div>
+
+            <div class="users-empty" id="usersEmpty" hidden>
+                <span><i class="fas fa-user-slash" aria-hidden="true"></i></span>
+                <h3>Никого не нашли</h3>
+                <p>Попробуй изменить запрос или выбрать другой фильтр.</p>
+            </div>
+            <div id="usersList" class="users-grid"></div>
+        </section>
+
+        <!-- STORE -->
+        <section id="page-store" class="page">
+            <div class="store-hero">
+                <div class="store-heading">
+                    <span class="store-kicker">PastaTeam Access</span>
+                    <h2>Выбери свой уровень доступа</h2>
+                    <p>Все тарифы открывают Core, библиотеку конфигов и Lua. Выбери срок — доступ активируется сразу после оплаты.</p>
+                    <div class="store-benefits" aria-label="Преимущества подписки">
+                        <span><i class="fas fa-bolt" aria-hidden="true"></i> Мгновенная активация</span>
+                        <span><i class="fas fa-rotate" aria-hidden="true"></i> Обновления включены</span>
+                    </div>
+                </div>
+
+                <aside class="store-account" aria-label="Ваш баланс и статус подписки">
+                    <div class="store-account-icon" aria-hidden="true"><i class="fas fa-wallet"></i></div>
+                    <div class="store-account-copy">
+                        <span>Твой баланс</span>
+                        <strong><i class="fas fa-coins" aria-hidden="true"></i> <span id="storeBalance">0</span></strong>
+                        <small id="storeAccessStatus">Войдите, чтобы оформить доступ</small>
+                    </div>
+                </aside>
+            </div>
+
+            <div id="storeMessage" class="store-message" role="status" aria-live="polite" hidden></div>
+
+            <div class="store-grid" id="storeGrid" aria-label="Тарифы подписки">
+                <article class="store-card" data-plan="start">
+                    <div class="plan-topline">
+                        <span class="badge">Start</span>
+                        <span class="plan-duration">01 / Day</span>
+                    </div>
+                    <div class="plan-heading">
+                        <h3 class="plan-name">Старт</h3>
+                        <p>Попробовать платформу</p>
+                    </div>
+                    <div class="plan-price"><i class="fas fa-coins" aria-hidden="true"></i><strong>150</strong><span>PASTA COIN</span></div>
+                    <div class="plan-rate">150 монет за день</div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check" aria-hidden="true"></i><span>Доступ к Core-лоадеру</span></li>
+                        <li><i class="fas fa-check" aria-hidden="true"></i><span>Библиотека CFG и Lua</span></li>
+                        <li><i class="fas fa-check" aria-hidden="true"></i><span>Стандартная поддержка</span></li>
+                    </ul>
+                    <div class="plan-footer">
+                        <p class="description">Короткий доступ для знакомства со всеми основными возможностями.</p>
+                        <button type="button" class="btn store-buy-button" data-days="1" data-cost="150">
+                            <span>Выбрать Старт</span><i class="fas fa-arrow-right" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
+
+                <article class="store-card store-card-featured" data-plan="optimal">
+                    <div class="plan-topline">
+                        <span class="badge badge-featured"><i class="fas fa-star" aria-hidden="true"></i> Выбор игроков</span>
+                        <span class="plan-duration">07 / Days</span>
+                    </div>
+                    <div class="plan-heading">
+                        <h3 class="plan-name">Оптимальный</h3>
+                        <p>Для активной игры</p>
+                    </div>
+                    <div class="plan-price"><i class="fas fa-coins" aria-hidden="true"></i><strong>700</strong><span>PASTA COIN</span></div>
+                    <div class="plan-rate"><span class="plan-saving">−33%</span> 100 монет за день</div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check" aria-hidden="true"></i><span>Всё из тарифа «Старт»</span></li>
+                        <li><i class="fas fa-check" aria-hidden="true"></i><span>Приоритетная поддержка</span></li>
+                        <li><i class="fas fa-check" aria-hidden="true"></i><span>Ранний доступ к новинкам</span></li>
+                    </ul>
+                    <div class="plan-footer">
+                        <p class="description">Сбалансированный вариант с лучшей ценой для регулярной игры.</p>
+                        <button type="button" class="btn btn-primary store-buy-button" data-days="7" data-cost="700">
+                            <span>Выбрать Оптимальный</span><i class="fas fa-arrow-right" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
+
+                <article class="store-card" data-plan="maximum">
+                    <div class="plan-topline">
+                        <span class="badge">Maximum</span>
+                        <span class="plan-duration">30 / Days</span>
+                    </div>
+                    <div class="plan-heading">
+                        <h3 class="plan-name">Максимум</h3>
+                        <p>Полный доступ на месяц</p>
+                    </div>
+                    <div class="plan-price"><i class="fas fa-coins" aria-hidden="true"></i><strong>2500</strong><span>PASTA COIN</span></div>
+                    <div class="plan-rate"><span class="plan-saving">−44%</span> ≈83 монеты за день</div>
+                    <ul class="plan-features">
+                        <li><i class="fas fa-check" aria-hidden="true"></i><span>Всё из тарифа «Оптимальный»</span></li>
+                        <li><i class="fas fa-check" aria-hidden="true"></i><span>Эксклюзивные скрипты</span></li>
+                        <li><i class="fas fa-check" aria-hidden="true"></i><span>VIP-поддержка 24/7</span></li>
+                    </ul>
+                    <div class="plan-footer">
+                        <p class="description">Максимум возможностей и самая выгодная стоимость одного дня.</p>
+                        <button type="button" class="btn store-buy-button" data-days="30" data-cost="2500">
+                            <span>Выбрать Максимум</span><i class="fas fa-arrow-right" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </article>
+            </div>
+
+            <div class="store-assurance" aria-label="Условия покупки">
+                <span><i class="fas fa-shield-halved" aria-hidden="true"></i> Без автопродления</span>
+                <span><i class="fas fa-clock" aria-hidden="true"></i> Дни суммируются</span>
+                <span><i class="fas fa-headset" aria-hidden="true"></i> Помощь в Support</span>
+            </div>
+        </section>
+
+        <!-- PROFILE -->
+        <section id="page-profile" class="page">
+            <div class="profile-container">
+                <section class="profile-card profile-hero" aria-labelledby="profileName">
+                    <div class="profile-avatar-zone">
+                        <button type="button" class="profile-avatar" id="avatarContainer" aria-label="Изменить аватар">
+                            <img id="avatarImg" src="" alt="Аватар пользователя" hidden>
+                            <i class="fas fa-user" id="avatarIcon" aria-hidden="true"></i>
+                            <span class="avatar-overlay"><i class="fas fa-camera" aria-hidden="true"></i> Сменить</span>
+                        </button>
+                        <input type="file" id="profileAvatarInput" accept="image/png,image/jpeg,image/webp" hidden>
+                        <span class="profile-avatar-hint">PNG, JPG или WEBP · до 2 МБ</span>
+                    </div>
+
+                    <div class="profile-info">
+                        <span class="profile-kicker">Personal workspace</span>
+                        <div class="profile-name-row">
+                            <h2 id="profileName">Гость</h2>
+                            <button type="button" class="profile-edit-name" id="profileEditNameBtn" aria-label="Изменить ник">
+                                <i class="fas fa-pen" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div class="profile-roles" id="profileRoles"><span class="user-role-chip">Guest</span></div>
+
+                        <form class="profile-name-form" id="profileNameForm" hidden novalidate>
+                            <label for="profileNameInput">Новый ник</label>
+                            <div class="profile-name-controls">
+                                <input type="text" id="profileNameInput" minlength="3" maxlength="24" autocomplete="off">
+                                <button type="submit" class="btn btn-primary">Сохранить</button>
+                                <button type="button" class="btn" id="profileNameCancel">Отмена</button>
+                            </div>
+                            <span class="profile-name-error" id="profileNameError" role="alert" hidden></span>
+                        </form>
+
+                        <p class="profile-bio"><i class="fas fa-quote-left" aria-hidden="true"></i><span id="profileBio">Войдите, чтобы увидеть свой профиль.</span></p>
+                        <div class="profile-actions">
+                            <button type="button" class="btn btn-primary" id="profilePrimaryAction">
+                                <i class="fas fa-right-to-bracket" aria-hidden="true"></i><span>Войти в аккаунт</span>
+                            </button>
+                            <button type="button" class="btn" data-profile-page="support">
+                                <i class="fas fa-headset" aria-hidden="true"></i><span>Support</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <aside class="profile-access-card" aria-label="Статус подписки">
+                        <div class="profile-access-topline">
+                            <span>Current access</span><i class="fas fa-shield-halved" aria-hidden="true"></i>
+                        </div>
+                        <div class="profile-access-icon" id="profileAccessIcon"><i class="fas fa-lock" aria-hidden="true"></i></div>
+                        <strong id="profileAccessTitle">Basic access</strong>
+                        <p id="profileSub">Подписка не активна</p>
+                        <button type="button" class="profile-access-link" data-profile-page="store">
+                            Управление доступом <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                        </button>
+                    </aside>
+                </section>
+
+                <div id="profileMessage" class="profile-message" role="status" aria-live="polite" hidden></div>
+
+                <section class="profile-stats" aria-label="Статистика профиля">
+                    <div class="profile-stat-card">
+                        <span class="profile-stat-icon coin"><i class="fas fa-coins" aria-hidden="true"></i></span>
+                        <div><span>Баланс</span><strong><span id="profileCoins">0</span> <small>PASTA COIN</small></strong></div>
+                    </div>
+                    <div class="profile-stat-card">
+                        <span class="profile-stat-icon"><i class="fas fa-file-arrow-up" aria-hidden="true"></i></span>
+                        <div><span>Загрузки</span><strong id="profileUploads">0</strong></div>
+                    </div>
+                    <div class="profile-stat-card">
+                        <span class="profile-stat-icon"><i class="fas fa-comments" aria-hidden="true"></i></span>
+                        <div><span>Сообщения</span><strong id="profileChatCount">0</strong></div>
+                    </div>
+                    <div class="profile-stat-card">
+                        <span class="profile-stat-icon"><i class="fas fa-id-badge" aria-hidden="true"></i></span>
+                        <div><span>Статус</span><strong id="profileMemberType">Guest</strong></div>
+                    </div>
+                </section>
+
+                <div class="profile-details">
+                    <section class="detail-card profile-activity-card">
+                        <div class="profile-section-heading">
+                            <div><span>Account</span><h3>Данные аккаунта</h3></div>
+                            <i class="fas fa-fingerprint" aria-hidden="true"></i>
+                        </div>
+                        <div class="profile-account-list">
+                            <div><span><i class="fas fa-envelope" aria-hidden="true"></i> Email</span><strong id="profileEmail">—</strong></div>
+                            <div><span><i class="fas fa-calendar-alt" aria-hidden="true"></i> Регистрация</span><strong id="profileRegistered">—</strong></div>
+                            <div><span><i class="fas fa-clock" aria-hidden="true"></i> Последний вход</span><strong id="profileLastLogin">—</strong></div>
+                        </div>
+                    </section>
+
+                    <section class="detail-card profile-files-card">
+                        <div class="profile-section-heading">
+                            <div><span>Library</span><h3>Мои загрузки</h3></div>
+                            <i class="fas fa-folder-open" aria-hidden="true"></i>
+                        </div>
+                        <div id="profileFilesList" class="profile-files-list">
+                            <div class="profile-files-empty"><i class="fas fa-folder-plus" aria-hidden="true"></i><span>Загрузок пока нет</span></div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </section>
+
+        <!-- SUPPORT -->
+        <section id="page-support" class="page">
+            <div class="support-shell">
+                <div class="support-hero">
+                    <div class="support-hero-copy">
+                        <span class="support-eyebrow"><i class="fas fa-headset" aria-hidden="true"></i> PastaTeam Support</span>
+                        <h2>Поможем разобраться</h2>
+                        <p>Опишите вопрос в одном обращении — его статус и вся история останутся на этой странице.</p>
+                        <div class="support-service-status" role="status">
+                            <span class="support-status-dot" aria-hidden="true"></span>
+                            <span><strong>Форма доступна</strong> · обычный ответ около 2 часов</span>
+                        </div>
+                    </div>
+
+                    <div class="support-stats" aria-label="Статистика обращений">
+                        <article class="support-stat">
+                            <span class="support-stat-icon"><i class="fas fa-ticket" aria-hidden="true"></i></span>
+                            <span><small id="totalTicketsLabel">Мои тикеты</small><strong id="totalTickets">0</strong></span>
+                        </article>
+                        <article class="support-stat">
+                            <span class="support-stat-icon is-open"><i class="fas fa-circle-question" aria-hidden="true"></i></span>
+                            <span><small>Открыто</small><strong id="openTickets">0</strong></span>
+                        </article>
+                        <article class="support-stat">
+                            <span class="support-stat-icon is-time"><i class="fas fa-clock" aria-hidden="true"></i></span>
+                            <span><small>Обычно отвечаем</small><strong id="avgResponseTime">~2 ч</strong></span>
+                        </article>
+                    </div>
+                </div>
+
+                <div class="support-layout">
+                    <section class="support-form-card" aria-labelledby="supportFormTitle">
+                        <div class="support-card-heading">
+                            <div>
+                                <span>Новое обращение</span>
+                                <h3 id="supportFormTitle">Расскажите, что случилось</h3>
+                            </div>
+                            <span class="support-form-step">01</span>
+                        </div>
+
+                        <div class="support-quick-topics" aria-label="Быстрый выбор категории">
+                            <button type="button" data-support-category="technical"><i class="fas fa-microchip" aria-hidden="true"></i> Техника</button>
+                            <button type="button" data-support-category="billing"><i class="fas fa-credit-card" aria-hidden="true"></i> Оплата</button>
+                            <button type="button" data-support-category="general"><i class="fas fa-comment-dots" aria-hidden="true"></i> Общий вопрос</button>
+                        </div>
+
+                        <form id="ticketForm" class="ticket-form" novalidate>
+                            <div class="support-field" id="ticketTitleField">
+                                <label for="ticketTitle">Короткий заголовок</label>
+                                <div class="support-input-wrap">
+                                    <i class="fas fa-pen" aria-hidden="true"></i>
+                                    <input type="text" id="ticketTitle" name="title" placeholder="Например: не запускается Loader"
+                                        minlength="4" maxlength="80" autocomplete="off" required aria-describedby="ticketTitleError">
+                                </div>
+                                <span class="support-field-error" id="ticketTitleError" hidden></span>
+                            </div>
+
+                            <div class="support-field">
+                                <label for="ticketCategory">Категория</label>
+                                <div class="support-input-wrap support-select-wrap">
+                                    <i class="fas fa-layer-group" aria-hidden="true"></i>
+                                    <select id="ticketCategory" name="category">
+                                        <option value="general">Общий вопрос</option>
+                                        <option value="technical">Техническая проблема</option>
+                                        <option value="billing">Оплата</option>
+                                    </select>
+                                    <i class="fas fa-chevron-down support-select-arrow" aria-hidden="true"></i>
+                                </div>
+                            </div>
+
+                            <div class="support-field" id="ticketBodyField">
+                                <div class="support-label-row">
+                                    <label for="ticketBody">Подробности</label>
+                                    <span><strong id="ticketBodyCount">0</strong>/1000</span>
+                                </div>
+                                <textarea id="ticketBody" name="body" placeholder="Что произошло, что вы уже попробовали и какой результат ожидали?"
+                                    minlength="12" maxlength="1000" required aria-describedby="ticketBodyHint ticketBodyError"></textarea>
+                                <span class="support-field-hint" id="ticketBodyHint">Не добавляйте пароли и другие секретные данные.</span>
+                                <span class="support-field-error" id="ticketBodyError" hidden></span>
+                            </div>
+
+                            <div class="support-form-message" id="supportFormMessage" role="status" aria-live="polite" hidden></div>
+                            <button type="submit" class="btn btn-primary support-submit" id="supportSubmitBtn">
+                                <span>Отправить обращение</span><i class="fas fa-arrow-right" aria-hidden="true"></i>
+                            </button>
+                        </form>
+                    </section>
+
+                    <aside class="support-guide" aria-labelledby="supportGuideTitle">
+                        <div class="support-card-heading">
+                            <div>
+                                <span>Перед отправкой</span>
+                                <h3 id="supportGuideTitle">Как получить ответ быстрее</h3>
+                            </div>
+                            <span class="support-form-step">02</span>
+                        </div>
+                        <ol class="support-guide-list">
+                            <li>
+                                <span>1</span>
+                                <div><strong>Опишите один вопрос</strong><p>Так обращение попадёт нужному специалисту без задержки.</p></div>
+                            </li>
+                            <li>
+                                <span>2</span>
+                                <div><strong>Добавьте контекст</strong><p>Укажите страницу, действие и текст ошибки, если он есть.</p></div>
+                            </li>
+                            <li>
+                                <span>3</span>
+                                <div><strong>Следите за статусом</strong><p>Ответ появится в истории обращений на этой странице.</p></div>
+                            </li>
+                        </ol>
+                        <div class="support-privacy-note">
+                            <i class="fas fa-shield-halved" aria-hidden="true"></i>
+                            <div><strong>Безопасность прежде всего</strong><span>Сотрудники поддержки не запрашивают пароль от аккаунта.</span></div>
+                        </div>
+                    </aside>
+                </div>
+
+                <section class="support-history" aria-labelledby="supportHistoryTitle">
+                    <div class="support-history-head">
+                        <div>
+                            <span class="support-history-kicker">История</span>
+                            <h3 id="supportHistoryTitle">Мои обращения</h3>
+                            <p id="supportHistoryDescription">Здесь появятся созданные вами тикеты и их текущий статус.</p>
+                        </div>
+                        <div class="support-history-tools">
+                            <div class="support-history-filters" id="supportTicketFilters" role="group" aria-label="Фильтр обращений" hidden>
+                                <button type="button" class="active" data-ticket-filter="all" aria-pressed="true">Все</button>
+                                <button type="button" data-ticket-filter="open" aria-pressed="false">Открытые</button>
+                                <button type="button" data-ticket-filter="answered" aria-pressed="false">С ответом</button>
+                            </div>
+                            <span class="support-result-count" id="ticketResultCount">0 обращений</span>
+                        </div>
+                    </div>
+                    <div id="ticketList" class="ticket-list" aria-live="polite"></div>
+                </section>
+            </div>
+        </section>
+
+        <!-- LOADER -->
+        <section id="page-loader" class="page">
+            <div class="loader-shell">
+                <div class="loader-hero">
+                    <div class="loader-hero-copy">
+                        <span class="loader-eyebrow"><i class="fas fa-cube" aria-hidden="true"></i> PastaTeam Core</span>
+                        <h2>Loader <span>v2.5.0</span></h2>
+                        <p>Единая точка запуска для приватных инструментов. Загрузите актуальную демо-сборку и следуйте короткой инструкции.</p>
+                        <div class="loader-hero-tags" aria-label="Информация о версии">
+                            <span><i class="fas fa-code-branch" aria-hidden="true"></i> Stable channel</span>
+                            <span><i class="fas fa-shield-halved" aria-hidden="true"></i> Доступ по подписке</span>
+                        </div>
+                    </div>
+
+                    <div class="loader-access-card" id="loaderAccessCard">
+                        <div class="loader-access-topline">
+                            <span>Ваш доступ</span>
+                            <span class="loader-access-live"><i aria-hidden="true"></i> Active</span>
+                        </div>
+                        <span class="loader-access-icon" id="loaderAccessIcon"><i class="fas fa-crown" aria-hidden="true"></i></span>
+                        <strong id="loaderAccessStatus">Premium access</strong>
+                        <span id="loaderAccessMeta">Проверяем подписку...</span>
+                    </div>
+                </div>
+
+                <div class="loader-workspace">
+                    <section class="loader-download-card" aria-labelledby="loaderDownloadTitle">
+                        <div class="loader-section-heading">
+                            <div>
+                                <span>Download center</span>
+                                <h3 id="loaderDownloadTitle">Актуальная сборка</h3>
+                            </div>
+                            <span class="loader-build-badge">Build 2.5.0</span>
+                        </div>
+
+                        <div class="loader-package">
+                            <span class="loader-package-icon"><i class="fas fa-box-open" aria-hidden="true"></i></span>
+                            <div>
+                                <strong>PastaTeam Loader</strong>
+                                <span>Демонстрационный пакет · Stable</span>
+                            </div>
+                            <i class="fas fa-circle-check loader-package-check" aria-label="Актуальная версия"></i>
+                        </div>
+
+                        <div class="loader-progress-head">
+                            <span id="loaderProgressLabel">Готов к загрузке</span>
+                            <strong id="loaderProgressText">0%</strong>
+                        </div>
+                        <div class="loader-progress-track" id="loaderProgressTrack" role="progressbar"
+                            aria-label="Прогресс загрузки" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                            <div class="loader-progress-bar" id="loaderProgressBar" style="width: 0%;"></div>
+                        </div>
+
+                        <div id="loaderStatus" class="loader-message" role="status" aria-live="polite" hidden></div>
+                        <button class="btn btn-primary loader-download-button" id="downloadLoaderBtn">
+                            <i class="fas fa-cloud-arrow-down" aria-hidden="true"></i><span>Запустить демо-загрузку</span>
+                        </button>
+                        <p class="loader-download-note"><i class="fas fa-circle-info" aria-hidden="true"></i> Файл в демо-проекте не создаётся — кнопка показывает сценарий загрузки.</p>
+
+                        <div class="loader-steps">
+                            <div><span>01</span><strong>Загрузите</strong><p>Запустите демо-загрузку актуальной сборки.</p></div>
+                            <div><span>02</span><strong>Подготовьте</strong><p>Закройте игру перед запуском инструмента.</p></div>
+                            <div><span>03</span><strong>Запустите</strong><p>Следуйте подсказкам самого приложения.</p></div>
+                        </div>
+                    </section>
+
+                    <section class="loader-chat-card" aria-labelledby="loaderChatTitle">
+                        <div class="loader-chat-header">
+                            <div class="loader-chat-title">
+                                <span class="loader-chat-icon"><i class="fas fa-comments" aria-hidden="true"></i></span>
+                                <div>
+                                    <span>Community channel</span>
+                                    <h3 id="loaderChatTitle">Общий чат</h3>
+                                </div>
+                            </div>
+                            <span class="loader-chat-members" id="chatUsers">0 участников</span>
+                        </div>
+
+                        <div class="chat-messages" id="chatMessages" aria-live="polite">
+                            <div class="chat-empty">
+                                <span><i class="fas fa-comment-dots" aria-hidden="true"></i></span>
+                                <strong>Сообщений пока нет</strong>
+                                <p>Начните разговор с участниками сообщества.</p>
+                            </div>
+                        </div>
+
+                        <form class="chat-composer" id="publicChatForm" novalidate>
+                            <div class="chat-composer-input">
+                                <label for="chatInput" class="visually-hidden">Сообщение в общий чат</label>
+                                <input type="text" id="chatInput" name="message" placeholder="Напишите сообщение..."
+                                    maxlength="500" autocomplete="off" aria-describedby="chatComposerMeta chatComposerMessage">
+                                <span id="chatComposerMeta"><strong id="chatInputCount">0</strong>/500</span>
+                            </div>
+                            <button type="submit" aria-label="Отправить сообщение"><i class="fas fa-paper-plane" aria-hidden="true"></i></button>
+                        </form>
+                        <div class="chat-composer-message" id="chatComposerMessage" role="status" aria-live="polite" hidden></div>
+                    </section>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <span class="footer-mark" aria-hidden="true"><i class="fas fa-crown"></i></span>
+                <span class="footer-name">PastaTeam<span>|cc</span></span>
+            </div>
+            <p class="footer-copy">© 2026 PastaTeam. Все права защищены.</p>
+            <div class="footer-status">
+                <span class="footer-status-dot" aria-hidden="true"></span>
+                <span>Systems online</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./script.js"></script>
+</body>
+</html>
